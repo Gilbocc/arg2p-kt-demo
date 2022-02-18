@@ -13,7 +13,10 @@ public class Main {
     public static void main(String[] args) {
         // ABSTRACT EVALUATION
         // output to std out
-        SolveStandardKt.solve(theory);
+        SolveStandardKt.solve(theory, (String elem) -> {
+            System.out.print(elem);
+            return null;
+        } );
 
         // QUERY EVALUATION
         final String query = "-flies(tweety)";
