@@ -9,6 +9,26 @@ import it.unibo.tuprolog.solve.channel.OutputChannel
 import it.unibo.tuprolog.solve.classic.ClassicSolverFactory
 import it.unibo.tuprolog.theory.Theory
 import it.unibo.tuprolog.theory.parsing.parse
+import it.unibo.tuprolog.argumentation.core.mining.graph
+import it.unibo.tuprolog.argumentation.core.model.Graph
+
+
+fun solve(theory: String) : Graph =
+    arg2pScope {
+        Arg2pSolver.default().let { arg2pSolver ->
+            ClassicSolverFactory.mutableSolverWithDefaultBuiltins(
+                otherLibraries = arg2pSolver.to2pLibraries().plus(FlagsBuilder().create().content()),
+                staticKb = Theory.parse(theory, arg2pSolver.operators()),
+                stdOut = OutputChannel.of {}
+            ).let { solver ->
+                solver.solve(Struct.parse("buildLabelSets") and "context_active"(X))
+                    .map { it.substitution[X]!!.asNumeric()!!.intValue.toInt() }
+                    .first()
+                    .let { solver.graph(it) }
+            }
+        }
+    }
+
 
 fun solve(theory: String, consumer : (String) -> Unit) =
     Arg2pSolver.default().let { arg2pSolver ->

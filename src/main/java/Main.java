@@ -1,3 +1,4 @@
+import it.unibo.tuprolog.argumentation.core.model.Graph;
 import org.example.SolveStandardKt;
 
 public class Main {
@@ -17,6 +18,12 @@ public class Main {
             System.out.print(elem);
             return null;
         } );
+
+        // ABSTRACT EVALUATION (GRAPH OUTPUT)
+        final Graph graph = SolveStandardKt.solve(theory);
+        graph.getLabellings().forEach(a -> {
+            System.out.println("Argument with conclusion " + a.getArgument().getConclusion() + " is " + a.getLabel());
+        });
 
         // QUERY EVALUATION
         final String query = "-flies(tweety)";
