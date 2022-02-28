@@ -1,5 +1,9 @@
 import it.unibo.tuprolog.argumentation.core.model.Graph;
 import org.example.SolveStandardKt;
+import org.example.TheoryKt;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class Main {
 
@@ -28,5 +32,16 @@ public class Main {
         final String query = "-flies(tweety)";
         final boolean result = SolveStandardKt.solve(query, theory);
         System.out.println(query + " is " + result);
+
+        // LIST OF QUERIES EVALUATION
+        final List<String> queries = Arrays.asList(
+                "violation(viol(epc))",
+                "violation(viol(epr))",
+                "violation(viol(ca(epr, x, r)))",
+                "o(-publish(epc))",
+                "o(-publish(epr))",
+                "o(remove(ca(epr, x, r)))"
+        );
+        System.out.println(SolveStandardKt.solve(queries, TheoryKt.getTestTheory()));
     }
 }

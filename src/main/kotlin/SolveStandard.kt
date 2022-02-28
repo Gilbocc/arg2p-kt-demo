@@ -50,3 +50,21 @@ fun solve(query: String, theory: String) : Boolean =
             }
         }
     }
+
+
+fun solve(queryList: List<String>, theory: String) : List<String> =
+    arg2pScope {
+        Arg2pSolver.default().let { arg2pSolver ->
+            ClassicSolverFactory.mutableSolverWithDefaultBuiltins(
+                otherLibraries = arg2pSolver.to2pLibraries().plus(FlagsBuilder().create().content()),
+                staticKb = Theory.parse(theory, arg2pSolver.operators())
+            ).let { solver ->
+                solver.solve("parser" call "convertAllRules"(`_`)).first()
+                queryList.filter { query ->
+                    solver.solve("structured" call "computeStatementAcceptance"(
+                        Struct.parse(query, arg2pSolver.operators()), X, Y, Z)).first().let {
+                            it.isYes && ! it.substitution[X]!!.toTerm().isEmptyList }
+                }
+            }
+        }
+    }
