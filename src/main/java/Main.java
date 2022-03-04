@@ -7,41 +7,23 @@ import java.util.List;
 
 public class Main {
 
-    private static final String theory = String.join("\n",
-            "d1 : bird(X) => flies(X).",
-                "d2 : penguin(X) => bird(X).",
-                "s1 : penguin(X) -> -flies(X).",
-                "a1 :-> penguin(tweety)."
-            );
-
-
     public static void main(String[] args) {
-        // ABSTRACT EVALUATION
-        // output to std out
-        SolveStandardKt.solve(theory, (String elem) -> {
-            System.out.print(elem);
-            return null;
-        } );
 
         // ABSTRACT EVALUATION (GRAPH OUTPUT)
-        final Graph graph = SolveStandardKt.solve(theory);
+        final Graph graph = SolveStandardKt.solve(TheoryKt.getTestTheory());
         graph.getLabellings().forEach(a ->
                 System.out.println("Argument with conclusion " + a.getArgument().getConclusion() + " is " + a.getLabel()));
 
-        // QUERY EVALUATION
-        final String query = "-flies(tweety)";
-        final boolean result = SolveStandardKt.solve(query, theory);
-        System.out.println(query + " is " + result);
-
-        // LIST OF QUERIES EVALUATION
+        // LIST OF QUERIES EVALUATION (True if the argument exists and is verified, False otherwise)
         final List<String> queries = Arrays.asList(
-                "violation(viol(epc))",
-                "violation(viol(epr))",
-                "violation(viol(ca(epr, x, r)))",
-                "o(-publish(epc))",
-                "o(-publish(epr))",
-                "o(remove(ca(epr, x, r)))"
+                "violation(viol(epc_1))",
+                "violation(viol(epr_1))",
+                "violation(viol(ca(epr_1, x_1, r_1)))",
+                "o(-publish(epc_1))",
+                "o(-publish(epr_1))",
+                "o(remove(ca(epr_1, x_1, r_1)))"
         );
-        System.out.println(SolveStandardKt.solve(queries, TheoryKt.getTestTheory()));
+        SolveStandardKt.solve(queries, TheoryKt.getTestTheory())
+                .forEach(s -> System.out.println(s.component1() + ":" + s.component2()));
     }
 }
