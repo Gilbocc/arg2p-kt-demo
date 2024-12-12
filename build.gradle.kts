@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "1.5.31"
+    kotlin("jvm") version "1.9.24"
     application
 }
 
@@ -12,11 +12,12 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib"))
-    implementation("it.unibo.tuprolog.argumentation:arg2p-jvm:0.6.4")
-    implementation("it.unibo.tuprolog:solve-classic-jvm:0.20.1")
-    implementation("it.unibo.tuprolog:parser-theory-jvm:0.20.1")
+    implementation("it.unibo.tuprolog.argumentation:arg2p-jvm:0.8.3")
+    implementation("it.unibo.tuprolog:solve-classic-jvm:1.0.4")
+    implementation("it.unibo.tuprolog:parser-theory-jvm:1.0.4")
+    implementation("it.unibo.tuprolog:dsl-solve-jvm:1.0.4")
 }
 
 application {
-    mainClass.set("Main")
+    mainClass = "org.gradle.sample.MainKt"
 }
