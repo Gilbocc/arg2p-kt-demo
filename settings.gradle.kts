@@ -1,2 +1,2 @@
-rootProject.name = "ProvaArg2p"
+rootProject.name = "arg2p-kt-demo"
 
